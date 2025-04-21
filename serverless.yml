@@ -1,0 +1,36 @@
+service: serverless
+
+plugins:
+  - serverless-plugin-optimize
+  - serverless-offline
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  api:
+    handler: dist/apps/api-gateway/main.handler
+    timeout: 100
+    environment:
+      AWS_REGION: ${env:AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+      
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true
+  optimize:
+    external: ["swagger-ui-dist"]
