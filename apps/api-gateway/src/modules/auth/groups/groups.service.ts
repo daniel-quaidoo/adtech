@@ -3,16 +3,16 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 // dto
-import { GroupDto } from "@lib/contracts/auth/groups/group.dto";
-import { CreateGroupDto } from "@lib/contracts/auth/groups/create-group.dto";
 import { CreateUserGroupDto } from "@lib/contracts/auth/groups/create-user-group.dto";
+// import { CreateGroupDto } from "@lib/contracts";
 
 // entity
 import { Group } from "./entities/group.entity";
 import { User } from "../users/entities/user.entity";
 import { UserGroup } from "./entities/user-group.entity";
 import { Permission } from "../permissions/entities/permission.entity";
-import { CreateUserGroupPermissionDto } from "@lib/contracts/auth/groups/create-user-group-permission.dto";
+import { CreateGroupDto, CreateUserGroupPermissionDto } from "@lib/contracts";
+
 
 @Injectable()
 export class GroupsService {
@@ -29,9 +29,16 @@ export class GroupsService {
 
   //Group Endpoints
   async create(dto: CreateGroupDto): Promise<Group> {
-    const permissions = dto.permissionIds?.length
-      ? await this.permissionRepo.findByIds(dto.permissionIds)
+
+    const permissionIds = dto.permissions?.map(p=> p.permission_id) || [];
+
+    const permissions = permissionIds.length
+      ? await this.permissionRepo.findByIds(permissionIds)
       : [];
+
+    if (permissionIds.length && permissions.length !== permissionIds.length) {
+        throw new NotFoundException('One or more permissions not found');
+    }
   
     const group = this.groupRepo.create({
       name: dto.name,
@@ -40,8 +47,15 @@ export class GroupsService {
     });
     const savedGroup = await this.groupRepo.save(group);
   
-    if (dto.userIds?.length) {
-      const users = await this.userRepo.findByIds(dto.userIds);
+    const userIds = dto.userGroups?.map(ug => ug.user?.user_id) || [];
+
+    if (userIds?.length) {
+      const users = await this.userRepo.findByIds(userIds);
+
+      if (users.length !== userIds.length) {
+        throw new NotFoundException('One or more users not found');
+      }
+
       const userGroups = users.map(user =>
         this.userGroupRepo.create({ user, group: savedGroup }) 
       );
@@ -79,13 +93,16 @@ export class GroupsService {
   //Add user to group
 
   async addUserToGroup(dto: CreateUserGroupDto): Promise <UserGroup> {
-    const group = await this.groupRepo.findOneBy({group_id: dto.groupId});
-    const user = await this.userRepo.findOneBy({user_id: dto.userId})
+
+    // const { user, group } = dto;
+    
+    const group = await this.groupRepo.findOneBy({group_id: dto.group.group_id});
+    const user = await this.userRepo.findOneBy({user_id: dto.user.user_id})
 
     if (!group || !user) throw new NotFoundException("Group or User not found");
 
     const existing_group = await this.userGroupRepo.findOne({
-      where: {user: {user_id: dto.userId}, group: {group_id: dto.groupId}},
+      where: {user: {user_id: dto.user.user_id}, group: {group_id: dto.group.group_id}},
       relations: ['user', 'group'],
     });
 
@@ -108,47 +125,65 @@ export class GroupsService {
   }
 
 
-  //Remove user from a usergroup
-  async removeUserFromGroup(dto: CreateUserGroupDto): Promise<void>{
+  async removeUserFromGroup(user_id: string, group_id: string): Promise<void> {
+    const user = await this.userRepo.findOneBy({ user_id });
+    const group = await this.groupRepo.findOneBy({ group_id });
+  
+    if (!user || !group) {
+      throw new NotFoundException('User or Group not found');
+    }
+  
     const userGroup = await this.userGroupRepo.findOne({
-      where: {user: {user_id: dto.userId}, group: {group_id: dto.groupId}},
+      where: {
+        user: { user_id },
+        group: { group_id },
+      },
       relations: ['user', 'group'],
-    })
-
-    if (!userGroup) throw new NotFoundException("User not in group");
+    });
+  
+    if (!userGroup) {
+      throw new NotFoundException('User is not part of this group');
+    }
+  
     await this.userGroupRepo.remove(userGroup);
   }
+  
 
   //Permission Endpoints
 
   //Add permission to group
   async addPermissionToGroup(dto: CreateUserGroupPermissionDto): Promise<Group> {
     const group = await this.groupRepo.findOne({
-      where: { group_id: dto.groupId },
+      where: { group_id: dto.group?.group_id },
       relations: ['permissions'],
     });
   
     if (!group) {
       throw new NotFoundException('Group not found');
     }
+
+    const permissionId = dto.permission?.permission_id;
   
-    if (!dto.permissionId || !dto.permissionId.length) {
-      throw new BadRequestException('No permissions provided');
+    if (!permissionId) {
+      throw new BadRequestException('permission ID not provided');
     }
 
-    const permissionsToAdd = await this.permissionRepo.findByIds(dto.permissionId);
+    const permission = await this.permissionRepo.findOne({
+      where: { permission_id: permissionId },
+    });
+  
+    if (!permission) {
+      throw new NotFoundException('Permission not found');
+    }
 
-    // Filter out duplicates
     const existingPermissionIds = group.permissions.map(p => p.permission_id);
-    const newPermissions = permissionsToAdd.filter(
-      p => !existingPermissionIds.includes(p.permission_id),
-    );
+    const isAlreadyAssigned = existingPermissionIds.includes(permissionId);
   
-    if (newPermissions.length === 0) {
-      throw new ConflictException('All permissions already assigned to group');
+    if (isAlreadyAssigned) {
+      throw new ConflictException('Permission already assigned to group');
     }
   
-    group.permissions.push(...newPermissions);
+    group.permissions.push(permission);
     return this.groupRepo.save(group);
   }
    

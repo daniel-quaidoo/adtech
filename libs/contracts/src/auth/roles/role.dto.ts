@@ -1,15 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { CreateUserDto } from '@lib/contracts/auth/users/create-user.dto';
+import { CreatePermissionDto } from '@lib/contracts/auth/permissions/create-permission.dto';
 
-export class RoleDto{
-    @ApiProperty({description: 'Role ID', example: '1'})
-    role_id: number;
-
-    @ApiProperty({description: 'Role name', example: 'Admin'})
-    name: string;
-
-    @ApiProperty({description: 'Alias', example: 'Organization Admin'})
-    alias: string;
-
-    @ApiProperty({description: 'Description', example: 'Manages organization level'})
-    description: string;
+export class RoleDto {
+  role_id: number;
+  name: string;
+  alias: string;
+  description: string;
+  users: CreateUserDto[];
+  permissions: CreatePermissionDto[];
 }

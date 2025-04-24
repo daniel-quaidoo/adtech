@@ -1,18 +1,37 @@
+import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUUID } from 'class-validator';
+import { IsArray, IsDate, IsOptional, IsString } from 'class-validator';
+// dto
+import { UserDto } from 'apps/api-gateway/src/modules/auth/users/dto/user.dto';
+import { GroupDto } from 'apps/api-gateway/src/modules/auth/groups/dto/group.dto';
 
 export class CreateUserGroupDto {
-  @ApiProperty({
-    description: 'ID of the user to be added to the group',
-    example: 'a3f2b6c8-9e71-4d1a-8f04-3f97f9de561a',
-  })
-  @IsUUID()
-  userId: string;
+  @ApiProperty({ description: 'user_group_id' })
+  @IsString()
+  user_group_id: string;
 
-  @ApiProperty({
-    description: 'ID of the group the user will be added to',
-    example: '9a2b1f5d-3ef2-4d9a-bc3d-8f9d2f60ea3c',
-  })
-  @IsUUID()
-  groupId: string;
+  @ApiProperty({ description: 'user', type: [UserDto] })
+  @IsOptional()
+  @Type(() => UserDto)
+  user: UserDto;
+
+  @ApiProperty({ description: 'group', type: [GroupDto] })
+  @IsOptional()
+  @Type(() => GroupDto)
+  group: GroupDto;
+
+  @ApiProperty({ description: 'isActive' })
+  @IsString()
+  isActive: boolean;
+
+  @ApiProperty({ description: 'created_at', type: String, format: 'date' })
+  @IsDate()
+  @Type(() => Date)
+  created_at: Date;
+
+  @ApiProperty({ description: 'updated_at', type: String, format: 'date' })
+  @IsDate()
+  @Type(() => Date)
+  updated_at: Date;
+
 }

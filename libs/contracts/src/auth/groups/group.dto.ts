@@ -1,14 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { PermissionDto } from "../permissions/permission.dto";
+import { UserGroupDto } from "./user-group.dto";
 
 
-export class GroupDto{
-
-    @ApiProperty({description: 'Group ID', example: '1'})
-    group_id: String;
-
-    @ApiProperty({description: 'Group Name', example: 'Finance'})
-    name:String;
-
-    @ApiProperty({description: 'Group Description', example: 'For  users in finance department'})
-    description: String;
+export class GroupDto {
+  group_id: string;
+  name: string;
+  description: string;
+  created_at: Date;
+  updated_at: Date;
+  userGroups: UserGroupDto[];
+  permissions: PermissionDto[];
 }

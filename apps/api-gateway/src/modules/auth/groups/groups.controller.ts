@@ -7,8 +7,8 @@ import { GroupsService } from "./groups.service";
 // dto
 import { CreateGroupDto } from "./dto/create-group.dto";
 import { CreateUserGroupDto } from "./dto/create-user-group.dto";
-import { CreateUserGroupPermissionDto } from "./dto/create-user-group-permission.dto";
 import { Group } from "./entities/group.entity";
+import { CreateUserGroupPermissionDto } from "./dto/create-user-group-permissions.dto";
 
 @ApiTags('Groups')
 @Controller('groups')
@@ -52,7 +52,7 @@ export class GroupsController{
         @Param('groupId') groupId: string,
         @Param('userId') userId: string,
     ){
-        return this.groupsService.removeUserFromGroup({groupId, userId})
+        return this.groupsService.removeUserFromGroup(groupId, userId)
     }
 
     //User group permissions:

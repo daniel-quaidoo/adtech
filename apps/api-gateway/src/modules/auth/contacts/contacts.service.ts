@@ -19,7 +19,7 @@ export class ContactsService{
     ) {}
 
     async create(dto: CreateContactDto) : Promise<Contact>{
-        const user = await this.userRepo.findOneBy({user_id: dto.user_id});
+        const user = await this.userRepo.findOneBy({user_id: dto.user.user_id});
         if (!user) throw new NotFoundException ("User not found");
 
         const contact = this.contactRepo.create({

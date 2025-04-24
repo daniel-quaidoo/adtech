@@ -1,17 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString, Length } from "class-validator";
+import { PermissionDto } from "../permissions/permission.dto";
+import { UserGroupDto } from "./user-group.dto";
 
-
-export class UpdateGroupDto{
-
-    @ApiProperty({description: 'Group Name', example: 'Finance'})
-    @IsOptional()
-    @IsString()
-    @Length(1, 80)
-    name?:String;
-
-    @ApiProperty({description: 'Group Description', example: 'For  users in finance department'})
-    @IsOptional()
-    @IsString()
-    description?: String;
+export class UpdateGroupDto {
+  group_id?: string;
+  name?: string;
+  description?: string;
+  created_at?: Date;
+  updated_at?: Date;
+  userGroups?: UserGroupDto[];
+  permissions?: PermissionDto[];
 }

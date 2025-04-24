@@ -6,7 +6,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AssignRoleDto } from './dto/assign-role.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-// import { CreateUserDto } from '@lib/contracts/auth/users/create-user.dto';
 
 @Controller('users')
 export class UsersController {

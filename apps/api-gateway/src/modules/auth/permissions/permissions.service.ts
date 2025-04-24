@@ -6,8 +6,8 @@ import { Repository } from 'typeorm';
 import { Permission } from './entities/permission.entity';
 
 //dto
-import { CreatePermissionDto } from '@lib/contracts/auth/permisssions/create-permission.dto';
-import { UpdatePermissionDto } from '@lib/contracts/auth/permisssions/update-permission.dto';
+import { CreatePermissionDto, UpdatePermissionDto } from '@lib/contracts';
+
 
 @Injectable()
 export class PermissionsService {

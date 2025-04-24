@@ -1,43 +1,22 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { Gender } from '@lib/contracts/auth/users/enums/gender.enum';
+import { CreateRoleDto } from '@lib/contracts/auth/roles/create-role.dto';
+import { CreateUserGroupDto } from '@lib/contracts/auth/groups/create-user-group.dto';
+import { CreateContactDto } from '@lib/contracts/auth/contacts/create-contact.dto';
 
-//enums
-import { Gender } from "@lib/contracts/auth/users/enums/gender.enum";
-
-export class UserDto{
-    @ApiProperty({description: 'User ID', example: '1'})
-    user_id: string;
-
-    @ApiProperty({description: 'User first name', example: 'Ama'})
-    first_name: string;
-
-    @ApiProperty({description: 'User last name', example: 'Aidoo'})
-    last_name: string;
-
-    @ApiProperty({description: 'User email', example: 'amaaidoo@abc.com'})
-    email: String;
-
-    @ApiProperty({description: 'Phone number', example: '+233 0002221111'})
-    phone_number: string;
-
-    @ApiProperty({description: 'Identification number', example: 'GHX4290-3932'})
-    identification_number: string;
-
-    @ApiProperty({description: 'Photo URL', example: 'https://folder/picture.com'})
-    photo_url: string;
-
-    @ApiProperty({description: 'Gender', example: 'Female'})
-    gender: Gender;
-
-    @ApiProperty({description: 'Date of birth', example: '02/12/2000'})
-    date_of_birth: Date;
-
-    @ApiProperty({description: 'Employer name', example: 'Bank of Ghana'})
-    employer_name: string;
-
-    @ApiProperty({description: 'Occupation Status', example: 'employed'})
-    occupation_status: string;
-
-    @ApiProperty({description: 'Occupation Location', example: 'Accra'})
-    occupation_location: string;
-    
+export class UserDto {
+  user_id: string;
+  first_name: string;
+  last_name: string;
+  email: String;
+  phone_number: string;
+  identification_number: string;
+  photo_url: string;
+  gender: Gender;
+  date_of_birth: Date;
+  employer_name: string;
+  occupation_status: string;
+  occupation_location: string;
+  roles: CreateRoleDto[];
+  userGroups: CreateUserGroupDto[];
+  contacts: CreateContactDto[];
 }

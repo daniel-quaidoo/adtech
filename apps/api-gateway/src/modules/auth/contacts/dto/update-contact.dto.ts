@@ -1,25 +1,40 @@
-import { ApiProperty } from "@nestjs/swagger";
-import {  IsOptional, IsString } from "class-validator";
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
-export class UpdateContactDto{
+// dto
+import { UserDto } from 'apps/api-gateway/src/modules/auth/users/dto/user.dto';
 
-    @ApiProperty({description: 'Emergency contact name', example: 'Akua Aidoo'})
-    @IsOptional()
-    @IsString()
-    emergency_contact_name?: string;
+export class UpdateContactDto {
+  @ApiProperty({ required: false, description: 'id' })
+  @IsString()
+  @IsOptional()
+  id?: String;
 
-    @ApiProperty({description: 'Emergency contact email', example: 'akuaaidoo@gmail.com'})
-    @IsOptional()
-    @IsString()
-    emergency_contact_email?: string;
+  @ApiProperty({ required: false, description: 'user', type: [UserDto] })
+  @IsArray()
+  @IsOptional()
+  @Type(() => UserDto)
+  user?: UserDto[];
 
-    @ApiProperty({description: 'Emergency contact relation', example: 'sister'})
-    @IsOptional()
-    @IsString()
-    emergency_contact_relation?: string;
+  @ApiProperty({ required: false, description: 'emergency_contact_name' })
+  @IsString()
+  @IsOptional()
+  emergency_contact_name?: String;
 
-    @ApiProperty({description: 'Emergency contact number', example: '+233 224 567 891'})
-    @IsOptional()
-    @IsString()
-    emergency_contact_number?: string;
+  @ApiProperty({ required: false, description: 'emergency_contact_email' })
+  @IsString()
+  @IsOptional()
+  emergency_contact_email?: String;
+
+  @ApiProperty({ required: false, description: 'emergency_contact_relation' })
+  @IsString()
+  @IsOptional()
+  emergency_contact_relation?: String;
+
+  @ApiProperty({ required: false, description: 'emergency_contact_number' })
+  @IsString()
+  @IsOptional()
+  emergency_contact_number?: String;
+
 }

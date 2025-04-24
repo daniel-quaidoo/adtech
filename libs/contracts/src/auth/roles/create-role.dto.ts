@@ -1,19 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from 'class-validator';
+import { CreateUserDto } from '@lib/contracts/auth/users/create-user.dto';
+import { CreatePermissionDto } from '@lib/contracts/auth/permissions/create-permission.dto';
 
-export class CreateRoleDto{
-
-    @ApiProperty({description: 'Role name', example: 'Admin'})
-    @IsString()
-    name: string;
-
-    @ApiProperty({description: 'Alias', example: 'Organization Admin'})
-    @IsString()
-    alias: string;
-
-    @IsString()
-    @ApiProperty({description: 'Description', example: 'Manages organization level'})
-    description: string;
-
-    permissionIds: string[];
+export class CreateRoleDto {
+  name: string;
+  alias: string;
+  description: string;
+  users: CreateUserDto[];
+  permissions: CreatePermissionDto[];
 }

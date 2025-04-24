@@ -1,21 +1,34 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsString } from 'class-validator';
 
-export class ContactDto{
-    @ApiProperty({description: 'Contact ID', example: '1'})
-    id:string;
+// dto
+import { UserDto } from 'apps/api-gateway/src/modules/auth/users/dto/user.dto';
 
-    @ApiProperty({description: 'User ID', example: '1'})
-    user_id:string;
+export class ContactDto {
+  @ApiProperty({ description: 'id' })
+  @IsString()
+  id: String;
 
-    @ApiProperty({description: 'Emergency contact name', example: 'Akua Aidoo'})
-    emergency_contact_name: string;
+  @ApiProperty({ description: 'user', type: [UserDto] })
+  @IsArray()
+  @Type(() => UserDto)
+  user: UserDto[];
 
-    @ApiProperty({description: 'Emergency contact email', example: 'akuaaidoo@gmail.com'})
-    emergency_contact_email: string;
+  @ApiProperty({ description: 'emergency_contact_name' })
+  @IsString()
+  emergency_contact_name: String;
 
-    @ApiProperty({description: 'Emergency contact relation', example: 'sister'})
-    emergency_contact_relation: string;
+  @ApiProperty({ description: 'emergency_contact_email' })
+  @IsString()
+  emergency_contact_email: String;
 
-    @ApiProperty({description: 'Emergency contact number', example: '+233 224 567 891'})
-    emergency_contact_number: string;
+  @ApiProperty({ description: 'emergency_contact_relation' })
+  @IsString()
+  emergency_contact_relation: String;
+
+  @ApiProperty({ description: 'emergency_contact_number' })
+  @IsString()
+  emergency_contact_number: String;
+
 }

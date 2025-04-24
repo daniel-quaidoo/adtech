@@ -1,64 +1,22 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsEnum, IsDate } from 'class-validator';
+import { Gender } from '@lib/contracts/auth/users/enums/gender.enum';
+import { CreateRoleDto } from '@lib/contracts/auth/roles/create-role.dto';
+import { CreateUserGroupDto } from '@lib/contracts/auth/groups/create-user-group.dto';
+import { CreateContactDto } from '@lib/contracts/auth/contacts/create-contact.dto';
 
-//enums
-import { Gender } from "@lib/contracts/auth/users/enums/gender.enum";
-
-export class UpdateUserDto{
-    
-    @ApiProperty({description: 'User first name', example: 'Ama'})
-    @IsString()
-    @IsOptional()
-    first_name?: string;
-
-    @ApiProperty({description: 'User last name', example: 'Aidoo'})
-    @IsString()
-    @IsOptional()
-    last_name?: string;
-
-    @ApiProperty({description: 'User email', example: 'amaaidoo@abc.com'})
-    @IsString()
-    @IsOptional()
-    email?: String;
-
-    @ApiProperty({description: 'Phone number', example: '+233 0002221111'})
-    @IsString()
-    @IsOptional()
-    phone_number?: string;
-
-    @ApiProperty({description: 'Identification number', example: 'GHX4290-3932'})
-    @IsString()
-    @IsOptional()
-    identification_number?: string;
-
-    @ApiProperty({description: 'Photo URL', example: 'https://folder/picture.com'})
-    @IsString()
-    @IsOptional()
-    photo_url?: string;
-
-    @ApiProperty({description: 'Gender', example: 'Female'})
-    @IsEnum(Gender)
-    @IsOptional()
-    gender?: Gender;
-
-    @ApiProperty({description: 'Date of birth', example: '02/12/2000'})
-    @IsDate()
-    @IsOptional()
-    date_of_birth?: Date;
-
-    @ApiProperty({description: 'Employer name', example: 'Bank of Ghana'})
-    @IsString()
-    @IsOptional()
-    employer_name?: string;
-
-    @ApiProperty({description: 'Occupation Status', example: 'employed'})
-    @IsString()
-    @IsOptional()
-    occupation_status?: string;
-
-    @ApiProperty({description: 'Occupation Location', example: 'Accra'})
-    @IsString()
-    @IsOptional()
-    occupation_location?: string;
-    
+export class UpdateUserDto {
+  user_id?: string;
+  first_name?: string;
+  last_name?: string;
+  email?: String;
+  phone_number?: string;
+  identification_number?: string;
+  photo_url?: string;
+  gender?: Gender;
+  date_of_birth?: Date;
+  employer_name?: string;
+  occupation_status?: string;
+  occupation_location?: string;
+  roles?: CreateRoleDto[];
+  userGroups?: CreateUserGroupDto[];
+  contacts?: CreateContactDto[];
 }

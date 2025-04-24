@@ -23,8 +23,15 @@ export async function bootstrap() {
     // Filters
     app.useGlobalFilters(new GlobalExceptionFilter());
     app.useGlobalInterceptors(new GlobalResponseInterceptor());
-    app.useGlobalPipes(new ValidationPipe({ transform: true }));
-
+    // app.useGlobalPipes(new ValidationPipe({ transform: true }));
+    app.useGlobalPipes(
+        new ValidationPipe({
+          whitelist: true,
+          forbidNonWhitelisted: true,
+          transform: true,
+        }),
+      );
+      
     // Enable CORS
     const corsOptions: CorsOptions = {
         origin: '*',

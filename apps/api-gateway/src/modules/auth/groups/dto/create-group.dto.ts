@@ -1,42 +1,40 @@
-import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsArray,
-  IsOptional,
-  IsString,
-  Length,
-  IsUUID,
-} from "class-validator";
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsDate, IsOptional, IsString } from 'class-validator';
+// dto
+import { UserGroupDto } from 'apps/api-gateway/src/modules/auth/groups/dto/user-group.dto';
+import { PermissionDto } from 'apps/api-gateway/src/modules/auth/permissions/dto/permission.dto';
 
 export class CreateGroupDto {
-  @ApiProperty({ description: "Group Name", example: "Finance" })
+  @ApiProperty({ description: 'name' })
   @IsString()
-  @Length(1, 80)
   name: string;
 
-  @ApiProperty({
-    description: "Group Description",
-    example: "For users in finance department",
-  })
+  @ApiProperty({ required: false, description: 'description' })
   @IsString()
   @IsOptional()
   description?: string;
 
-  @ApiProperty({
-    description: "IDs of users to associate with the group",
-    example: ["9a2b1f5d-3ef2-4d9a-bc3d-8f9d2f60ea3c"],
-    required: false,
-  })
-  @IsOptional()
-  @IsArray()
-  @IsUUID("all", { each: true })
-  userIds?: string[];
+  @ApiProperty({ description: 'created_at', type: String, format: 'date' })
+  @IsDate()
+  @Type(() => Date)
+  created_at: Date;
 
-  @ApiProperty({
-    description: 'IDs of permissions to assign to the group',
-    example: ['perm-1', 'perm-2'],
-    required: false,
-  })
-  @IsOptional()
+  @ApiProperty({ description: 'updated_at', type: String, format: 'date' })
+  @IsDate()
+  @Type(() => Date)
+  updated_at: Date;
+
+  @ApiProperty({ description: 'userGroups', type: [UserGroupDto] })
   @IsArray()
-  permissionIds?: string[];
+  @IsOptional()
+  @Type(() => UserGroupDto)
+  userGroups: UserGroupDto[];
+
+  @ApiProperty({ description: 'permissions', type: [PermissionDto] })
+  @IsArray()
+  @IsOptional()
+  @Type(() => PermissionDto)
+  permissions: PermissionDto[];
+
 }

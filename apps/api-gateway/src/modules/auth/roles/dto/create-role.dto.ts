@@ -1,20 +1,32 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator';
+// dto
+import { UserDto } from 'apps/api-gateway/src/modules/auth/users/dto/user.dto';
+import { PermissionDto } from 'apps/api-gateway/src/modules/auth/permissions/dto/permission.dto';
+export class CreateRoleDto {
+  @ApiProperty({ description: 'name' })
+  @IsString()
+  name: string;
 
-export class CreateRoleDto{
+  @ApiProperty({ description: 'alias' })
+  @IsString()
+  alias: string;
 
-    @ApiProperty({description: 'Role name', example: 'Admin'})
-    @IsString()
-    name: string;
+  @ApiProperty({ description: 'description' })
+  @IsString()
+  description: string;
 
-    @ApiProperty({description: 'Alias', example: 'Organization Admin'})
-    @IsString()
-    // @IsOptional()
-    alias: string;
+  @ApiProperty({ description: 'users', type: [UserDto] })
+  @IsArray()
+  @IsOptional()
+  @Type(() => UserDto)
+  users: UserDto[];
 
-    @IsString()
-    @ApiProperty({description: 'Description', example: 'Manages organization level'})
-    description: string;
+  @ApiProperty({ description: 'permissions', type: [PermissionDto] })
+  @IsArray()
+  @IsOptional()
+  @Type(() => PermissionDto)
+  permissions: PermissionDto[];
 
-    permissionIds: string[];
 }

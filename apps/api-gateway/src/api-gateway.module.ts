@@ -8,6 +8,8 @@ import { ClientConfigModule } from '../../common/config'
 
 // module
 import { AuthModule } from './modules/auth/auth.module';
+import { AddressModule } from './modules/address/address.module';
+
 
 // service
 import { ApiGatewayService } from './api-gateway.service';
@@ -15,9 +17,12 @@ import { ApiGatewayService } from './api-gateway.service';
 // controllers
 import { ApiGatewayController } from './api-gateway.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TicketingModule } from './modules/ticketing/ticketing.module';
 
 @Module({
   imports: [
+    TicketingModule,
+    AddressModule,
     AuthModule,
     ClientConfigModule,
     ConfigModule.forRoot({

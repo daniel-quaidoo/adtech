@@ -1,43 +1,78 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsDate, IsEnum, IsString } from 'class-validator';
 
-//enums
-import { Gender } from "@lib/contracts/auth/users/enums/gender.enum";
+// enum
+import { Gender } from '@lib/contracts/auth/users/enums/gender.enum';
 
-export class UserDto{
-    @ApiProperty({description: 'User ID', example: '1'})
-    user_id: string;
+// dto
+import { RoleDto } from 'apps/api-gateway/src/modules/auth/roles/dto/role.dto';
+import { UserGroupDto } from 'apps/api-gateway/src/modules/auth/groups/dto/user-group.dto';
+import { ContactDto } from 'apps/api-gateway/src/modules/auth/contacts/dto/contact.dto';
 
-    @ApiProperty({description: 'User first name', example: 'Ama'})
-    first_name: string;
+export class UserDto {
+  @ApiProperty({ description: 'user_id' })
+  @IsString()
+  user_id: string;
 
-    @ApiProperty({description: 'User last name', example: 'Aidoo'})
-    last_name: string;
+  @ApiProperty({ description: 'first_name' })
+  @IsString()
+  first_name: string;
 
-    @ApiProperty({description: 'User email', example: 'amaaidoo@abc.com'})
-    email: String;
+  @ApiProperty({ description: 'last_name' })
+  @IsString()
+  last_name: string;
 
-    @ApiProperty({description: 'Phone number', example: '+233 0002221111'})
-    phone_number: string;
+  @ApiProperty({ description: 'email' })
+  @IsString()
+  email: String;
 
-    @ApiProperty({description: 'Identification number', example: 'GHX4290-3932'})
-    identification_number: string;
+  @ApiProperty({ description: 'phone_number' })
+  @IsString()
+  phone_number: string;
 
-    @ApiProperty({description: 'Photo URL', example: 'https://folder/picture.com'})
-    photo_url: string;
+  @ApiProperty({ description: 'identification_number' })
+  @IsString()
+  identification_number: string;
 
-    @ApiProperty({description: 'Gender', example: 'female'})
-    gender: Gender;
+  @ApiProperty({ description: 'photo_url' })
+  @IsString()
+  photo_url: string;
 
-    @ApiProperty({description: 'Date of birth', example: '2000-12-02'})
-    date_of_birth: Date;
+  @ApiProperty({ description: 'gender', enum: Gender })
+  @IsEnum(Gender)
+  gender: Gender;
 
-    @ApiProperty({description: 'Employer name', example: 'Bank of Ghana'})
-    employer_name: string;
+  @ApiProperty({ description: 'date_of_birth', type: String, format: 'date' })
+  @IsDate()
+  @Type(() => Date)
+  date_of_birth: Date;
 
-    @ApiProperty({description: 'Occupation Status', example: 'employed'})
-    occupation_status: string;
+  @ApiProperty({ description: 'employer_name' })
+  @IsString()
+  employer_name: string;
 
-    @ApiProperty({description: 'Occupation Location', example: 'Accra'})
-    occupation_location: string;
-    
+  @ApiProperty({ description: 'occupation_status' })
+  @IsString()
+  occupation_status: string;
+
+  @ApiProperty({ description: 'occupation_location' })
+  @IsString()
+  occupation_location: string;
+
+  @ApiProperty({ description: 'roles', type: [RoleDto] })
+  @IsArray()
+  @Type(() => RoleDto)
+  roles: RoleDto[];
+
+  @ApiProperty({ description: 'userGroups', type: [UserGroupDto] })
+  @IsArray()
+  @Type(() => UserGroupDto)
+  userGroups: UserGroupDto[];
+
+  @ApiProperty({ description: 'contacts', type: [ContactDto] })
+  @IsArray()
+  @Type(() => ContactDto)
+  contacts: ContactDto[];
+
 }

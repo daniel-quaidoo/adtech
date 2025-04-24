@@ -17,9 +17,9 @@ export class UsersService {
     async create(dto: CreateUserDto): Promise<User> {
         let roles = [];
       
-        if (dto.roleIds && Array.isArray(dto.roleIds) && dto.roleIds.length) {
+        if (dto.roles && Array.isArray(dto.roles) && dto.roles.length) {
           roles = await this.roleRepo.findBy({
-            role_id: In(dto.roleIds),
+            role_id: In(dto.roles),
           });
         }
       

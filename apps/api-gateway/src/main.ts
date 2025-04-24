@@ -39,8 +39,15 @@ async function bootstrap() {
   // app.useGlobalGuards(new PassportJwtAuthGuard(reflector));
 
   // validation pipes
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
-
+  // app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+  
   // enable CORS
   const corsOptions: CorsOptions = {
     origin: '*',

@@ -22,8 +22,8 @@ export class RolesService {
     ){}
 
     async create(dto: CreateRoleDto): Promise<Role> {
-        const permissions = dto.permissionIds?.length
-          ? await this.permissionRepo.findBy({ permission_id: In(dto.permissionIds) })
+        const permissions = dto.permissions?.length
+          ? await this.permissionRepo.findBy({ permission_id: In(dto.permissions) })
           : [];
       
         const role = this.roleRepo.create({
