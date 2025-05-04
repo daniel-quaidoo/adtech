@@ -11,6 +11,4 @@ export class UpdateAddressDto {
   address_2?: string;
   address_postal_code?: string;
   city?: CityDto;
-  region?: RegionDto;
-  country?: CountryDto;
 }

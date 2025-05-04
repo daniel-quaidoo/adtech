@@ -9,6 +9,7 @@ import { Role } from "../../roles/entities/role.entity";
 import { Group } from "../../groups/entities/group.entity";
 import { Contact } from "../../contacts/entities/contact.entity";
 import { UserGroup } from "../../groups/entities/user-group.entity";
+import { Media } from "../../../resources/entities/media.entity";
 
 
 @Entity({name: "user"})
@@ -60,4 +61,8 @@ export class User{
 
     @OneToMany(()=> Contact, (contact) => contact.user)
     contacts: Contact[];
+
+    @OneToMany(()=> Media, (media)  => media.uploaded_by)
+    media: Media[]
+
 }

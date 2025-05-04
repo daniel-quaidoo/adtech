@@ -46,14 +46,14 @@ export class UpdateAddressDto {
   @Type(() => CityDto)
   city?: CityDto;
 
-  @ApiProperty({ required: false, description: 'region', type: [RegionDto] })
-  @IsOptional()
-  @Type(() => RegionDto)
-  region?: RegionDto;
+  // @ApiProperty({ required: false, description: 'region', type: [RegionDto] })
+  // @IsOptional()
+  // @Type(() => RegionDto)
+  // region?: RegionDto;
 
-  @ApiProperty({ required: false, description: 'country', type: [CountryDto] })
-  @IsOptional()
-  @Type(() => CountryDto)
-  country?: CountryDto;
+  // @ApiProperty({ required: false, description: 'country', type: [CountryDto] })
+  // @IsOptional()
+  // @Type(() => CountryDto)
+  // country?: CountryDto;
 
 }

@@ -61,7 +61,6 @@ export class TicketDto {
   requester_name: string;
 
 
-
   @ApiProperty({ description: 'Email of requester' })
   @IsEmail()
   requester_email: string;

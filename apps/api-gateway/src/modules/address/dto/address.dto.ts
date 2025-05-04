@@ -39,12 +39,12 @@ export class AddressDto {
   @Type(() => CityDto)
   city: CityDto;
 
-  @ApiProperty({ description: 'region', type: [RegionDto] })
-  @Type(() => RegionDto)
-  region: RegionDto;
+  // @ApiProperty({ description: 'region', type: [RegionDto] })
+  // @Type(() => RegionDto)
+  // region: RegionDto;
 
-  @ApiProperty({ description: 'country', type: [CountryDto] })
-  @Type(() => CountryDto)
-  country: CountryDto;
+  // @ApiProperty({ description: 'country', type: [CountryDto] })
+  // @Type(() => CountryDto)
+  // country: CountryDto;
 
 }

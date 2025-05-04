@@ -8,7 +8,7 @@ import { Country } from './entities/country.entity';
 import { Region } from './entities/region.entity';
 import { City } from './entities/city.entity';
 import { Address } from './entities/address.entity';
-import { CreateAddressDto, CreateCityDto, CreateCountryDto, CreateRegionDto, UpdateAddressDto, UpdateCityDto, UpdateCountryDto, UpdateRegionDto } from '@lib/contracts';
+import { AddressDto, CreateAddressDto, CreateCityDto, CreateCountryDto, CreateRegionDto, UpdateAddressDto, UpdateCityDto, UpdateCountryDto, UpdateRegionDto } from '@lib/contracts';
 
 //dto
 
@@ -51,21 +51,21 @@ export class AddressService {
          
     }
 
-    async findAllAddresses(): Promise<Address[]>{
+    async findAllAddresses(): Promise<AddressDto[]>{
         return this.addressRepo.find()
     }
 
-    async findOneAddress(id:string): Promise<Address>{
+    async findOneAddress(id:string): Promise<AddressDto>{
         const address = await this.addressRepo.findOne({where: {address_id:id}})
         if(!address) throw new NotFoundException("Address not found")
 
         return address;
     }
 
-    async updateAddress(id:string, dto:UpdateAddressDto): Promise<Address>{
+    async updateAddress(id:string, dto:UpdateAddressDto): Promise<AddressDto>{
         const address = await this.findOneAddress(id);
-        const updated = this.addressRepo.merge(address, dto);
-        return this.addressRepo.save(updated);
+        Object.assign(address, dto);
+        return this.addressRepo.save(address);
         }
 
         

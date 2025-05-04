@@ -11,6 +11,6 @@ export class AddressDto {
   address_2: string;
   address_postal_code: string;
   city: CityDto;
-  region: RegionDto;
-  country: CountryDto;
+  // region: RegionDto;
+  // country: CountryDto;
 }

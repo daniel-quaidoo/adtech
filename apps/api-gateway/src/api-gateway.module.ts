@@ -18,15 +18,22 @@ import { ApiGatewayService } from './api-gateway.service';
 import { ApiGatewayController } from './api-gateway.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TicketingModule } from './modules/ticketing/ticketing.module';
+import { ResourcesModule } from './modules/resources/resources.module';
+import { BillingModule } from './modules/billing/billing.module';
+import { BillingRoutingModule } from './modules/billing/billing-routing.module';
 
 @Module({
   imports: [
+    BillingRoutingModule,
+    BillingModule,
+    ResourcesModule,
     TicketingModule,
     AddressModule,
     AuthModule,
     ClientConfigModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     //   load: [async () => ssmConfig({})],
     }),
     RouterModule.register([
