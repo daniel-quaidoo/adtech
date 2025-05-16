@@ -1,0 +1,41 @@
+project
+- apps
+  - api-gateway
+    - src
+      - modules
+        - auth
+          - users
+            - dto
+              - create-user.dto.ts
+              - update-user.dto.ts
+              - user.dto.ts
+            - entities
+              - user.entity.ts
+            - users.controller.ts
+            - users.module.ts
+            - users.service.ts
+        - auth.controller.ts
+        - auth.module.ts
+        - auth.service.ts
+      - api-gateway.controller.ts
+      - api-gateway.module.ts
+      - api-gateway.service.ts
+      - bootstrap.ts
+      - main.ts
+      - tsconfig.app.json
+    - common
+- dist
+- libs
+  - contracts
+    - src
+      - auth
+        - users
+          - users.enum.ts
+          - create-user.dto.ts
+          - update-user.dto.ts
+          - user.dto.ts
+          - user.pattern.ts
+        - roles
+      - billing
+        - invoice
+  - readme.txt

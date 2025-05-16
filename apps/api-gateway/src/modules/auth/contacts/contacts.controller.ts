@@ -1,5 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+
+// services
 import { ContactsService } from "./contacts.service";
+
+// dto
 import { CreateContactDto } from "@lib/contracts/auth/contacts/create-contact.dto";
 import { UpdateContactDto } from "@lib/contracts/auth/contacts/update-contact.dto";
 

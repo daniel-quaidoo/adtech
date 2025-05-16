@@ -1,10 +1,18 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { Contact } from "./entities/contact.entity";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable, NotFoundException } from "@nestjs/common";
+
+// constants
+import { CONTACT_NOT_FOUND } from "./contact.constants";
+
+// entity
+import { Contact } from "./entities/contact.entity";
 import { User } from "../users/entities/user.entity";
+
+// dto
 import { CreateContactDto } from "@lib/contracts/auth/contacts/create-contact.dto";
 import { UpdateContactDto } from "@lib/contracts/auth/contacts/update-contact.dto";
+
 
 
 @Injectable()
@@ -40,7 +48,7 @@ export class ContactsService{
             relations: ['user'],
         });
 
-        if (!contact) throw new NotFoundException( "Contact not found");
+        if (!contact) throw new NotFoundException(CONTACT_NOT_FOUND);
         return contact;
     }
 

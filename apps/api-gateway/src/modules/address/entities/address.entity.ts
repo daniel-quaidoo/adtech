@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { City } from "./city.entity";
-import { Region } from "./region.entity";
-import { Country } from "./country.entity";
+import { City } from "../city/entities/city.entity";
+import { Region } from "../region/entities/region.entity";
+import { Country } from "../country/entities/country.entity";
 import { AddressType } from "@lib/contracts/address/enums/address-type.enum";
 
 

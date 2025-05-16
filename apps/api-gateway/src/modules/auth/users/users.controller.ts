@@ -50,9 +50,4 @@ export class UsersController {
     ){
         return this.usersService.removeRoleFromUser(userId, roleId);
     }
-       
-    
-
-
-
 }

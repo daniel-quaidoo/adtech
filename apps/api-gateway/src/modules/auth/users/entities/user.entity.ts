@@ -1,5 +1,5 @@
 
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany, JoinColumn, OneToOne } from "typeorm";
 
 //enums
 import { Gender } from "@lib/contracts/auth/users/enums/gender.enum";
@@ -10,6 +10,7 @@ import { Group } from "../../groups/entities/group.entity";
 import { Contact } from "../../contacts/entities/contact.entity";
 import { UserGroup } from "../../groups/entities/user-group.entity";
 import { Media } from "../../../resources/entities/media.entity";
+import { UserCredentials } from "./user-credentials.entity";
 
 
 @Entity({name: "user"})
@@ -54,15 +55,17 @@ export class User{
     @JoinTable({name: 'user_roles'})
     roles: Role[]
 
-
     @OneToMany(() => UserGroup, (userGroup) => userGroup.user)
     userGroups: UserGroup[];
-
 
     @OneToMany(()=> Contact, (contact) => contact.user)
     contacts: Contact[];
 
     @OneToMany(()=> Media, (media)  => media.uploaded_by)
     media: Media[]
+
+    @OneToOne(() => UserCredentials, { cascade: true })
+    @JoinColumn({ name: 'credentials_id' })
+    credentials: UserCredentials;
 
 }

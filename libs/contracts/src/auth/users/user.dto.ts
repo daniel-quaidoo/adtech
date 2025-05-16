@@ -2,12 +2,13 @@ import { Gender } from '@lib/contracts/auth/users/enums/gender.enum';
 import { CreateRoleDto } from '@lib/contracts/auth/roles/create-role.dto';
 import { CreateUserGroupDto } from '@lib/contracts/auth/groups/create-user-group.dto';
 import { CreateContactDto } from '@lib/contracts/auth/contacts/create-contact.dto';
+import { UserCredentialsDto } from './user-creds.dto';
 
 export class UserDto {
   user_id: string;
   first_name: string;
   last_name: string;
-  email: String;
+  email: string;
   phone_number: string;
   identification_number: string;
   photo_url: string;
@@ -19,4 +20,5 @@ export class UserDto {
   roles: CreateRoleDto[];
   userGroups: CreateUserGroupDto[];
   contacts: CreateContactDto[];
+  credentials?: UserCredentialsDto;
 }

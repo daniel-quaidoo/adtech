@@ -6,9 +6,9 @@ import { IsArray, IsEnum, IsString } from 'class-validator';
 import { AddressType } from '@lib/contracts/address/enums/address-type.enum';
 
 // dto
-import { CityDto } from '@app/api-gateway/src/modules/address/dto/city.dto';
-import { RegionDto } from '@app/api-gateway/src/modules/address/dto/region.dto';
-import { CountryDto } from '@app/api-gateway/src/modules/address/dto/country.dto';
+import { CityDto } from '@app/api-gateway/src/modules/address/city/dto/city.dto';
+import { RegionDto } from '@app/api-gateway/src/modules/address/region/dto/region.dto';
+import { CountryDto } from '@app/api-gateway/src/modules/address/country/dto/country.dto';
 
 export class AddressDto {
   @ApiProperty({ description: 'address_id' })

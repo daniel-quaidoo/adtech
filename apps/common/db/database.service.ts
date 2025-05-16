@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 // service
@@ -6,25 +7,30 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 @Injectable()
 export class DatabaseConfigService implements TypeOrmOptionsFactory {
-    // constructor(private readonly ssmConfigService: SsmConfigService) { }
+    constructor(
+        // private readonly ssmConfigService: SsmConfigService,
+        private readonly configService: ConfigService,
+    ) { }
 
     async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
         // const db = (await this.ssmConfigService.loadParameters())["APP"]["DB"];
 
         return {
-            type: 'mysql',
+            // type: 'mysql',
             // host: db.MY_DB_HOST,
             // port: Number(db.DB_PORT),
             // username: db.MY_DB_USERNAME,
             // password: db.MY_DB_PASSWORD,
             // database: db.MY_DB_DATABASE,
-            synchronize: false,
+            type: 'postgres',
+            host: this.configService.get<string>('DB_HOST'),
+            port: Number(this.configService.get<number>('DB_PORT')),
+            username: this.configService.get<string>('DB_USERNAME'),
+            password: this.configService.get<string>('DB_PASSWORD'),
+            database: this.configService.get<string>('DB_DATABASE'),
             autoLoadEntities: true,
-            host: configService.get<string>('DB_HOST'),
-            port: configService.get<number>('DB_PORT'),
-            username: configService.get<string>('DB_USERNAME'),
-            password: configService.get<string>('DB_PASSWORD'),
-            database: configService.get<string>('DB_DATABASE'),
+            synchronize: true, // using migrations now
+            migrations: ['dist/migrations/*.js'],
         };
     }
 }

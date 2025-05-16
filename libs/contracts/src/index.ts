@@ -41,25 +41,39 @@ export * from '@lib/contracts/auth/contacts/update-contact.dto';
 export * from '@lib/contracts/auth/contacts/contact.pattern';
 
 // Region
-export * from '@lib/contracts/address/entities/region.dto';
-export * from '@lib/contracts/address/entities/create-region.dto';
-export * from '@lib/contracts/address/entities/update-region.dto';
-export * from '@lib/contracts/address/entities/region.pattern';
+export * from '@lib/contracts/address/region/region.dto';
+export * from '@lib/contracts/address/region/create-region.dto';
+export * from '@lib/contracts/address/region/update-region.dto';
+export * from '@lib/contracts/address/region/region.pattern';
 
 // Country
-export * from '@lib/contracts/address/entities/country.dto';
-export * from '@lib/contracts/address/entities/create-country.dto';
-export * from '@lib/contracts/address/entities/update-country.dto';
-export * from '@lib/contracts/address/entities/country.pattern';
+export * from '@lib/contracts/address/country/country.dto';
+export * from '@lib/contracts/address/country/create-country.dto';
+export * from '@lib/contracts/address/country/update-country.dto';
+export * from '@lib/contracts/address/country/country.pattern';
 
 // City
-export * from '@lib/contracts/address/entities/city.dto';
-export * from '@lib/contracts/address/entities/create-city.dto';
-export * from '@lib/contracts/address/entities/update-city.dto';
-export * from '@lib/contracts/address/entities/city.pattern';
+export * from '@lib/contracts/address/city/city.dto';
+export * from '@lib/contracts/address/city/create-city.dto';
+export * from '@lib/contracts/address/city/update-city.dto';
+export * from '@lib/contracts/address/city/city.pattern';
 
 // Address
-export * from '@lib/contracts/address/entities/address.dto';
-export * from '@lib/contracts/address/entities/create-address.dto';
-export * from '@lib/contracts/address/entities/update-address.dto';
-export * from '@lib/contracts/address/entities/address.pattern';
+export * from '@lib/contracts/address/address.dto';
+export * from '@lib/contracts/address/create-address.dto';
+export * from '@lib/contracts/address/update-address.dto';
+export * from '@lib/contracts/address/address.pattern';
+
+// Auth
+export * from '@lib/contracts/auth/auth.dto'
+export * from '@lib/contracts/auth/auth.patterns'
+
+// Mailing
+export * from '@lib/contracts/messaging/mail/onboarding-mail.dto'
+export * from '@lib/contracts/messaging/mail/approved-mail.dto'
+export * from '@lib/contracts/messaging/mail/confirm-mail.dto'
+export * from '@lib/contracts/messaging/mail/payment-mail.dto'
+export * from '@lib/contracts/messaging/mail/rejected-mail.dto'
+export * from '@lib/contracts/messaging/mail/reset-pass-mail.dto'
+export * from '@lib/contracts/messaging/mail/welcome-mail.dto'
+export * from '@lib/contracts/messaging/mail/mail.pattern'

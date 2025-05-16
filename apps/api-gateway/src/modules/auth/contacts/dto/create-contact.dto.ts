@@ -1,33 +1,40 @@
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsBoolean } from 'class-validator';
 // dto
 import { UserDto } from 'apps/api-gateway/src/modules/auth/users/dto/user.dto';
+
 export class CreateContactDto {
   @ApiProperty({ description: 'id' })
   @IsString()
   id: String;
 
-  @ApiProperty({ description: 'user', type: [UserDto] })
-  @IsArray()
+  @ApiProperty({ description: 'user', type: UserDto })
   @IsOptional()
   @Type(() => UserDto)
-  user: UserDto[];
+  user: UserDto;
 
-  @ApiProperty({ description: 'emergency_contact_name' })
+  @ApiProperty({ description: 'first_name' })
   @IsString()
-  emergency_contact_name: String;
+  first_name: String;
 
-  @ApiProperty({ description: 'emergency_contact_email' })
+  @ApiProperty({ description: 'last_name' })
   @IsString()
-  emergency_contact_email: String;
+  last_name: String;
 
-  @ApiProperty({ description: 'emergency_contact_relation' })
+  @ApiProperty({ description: 'email' })
   @IsString()
-  emergency_contact_relation: String;
+  email: String;
 
-  @ApiProperty({ description: 'emergency_contact_number' })
+  @ApiProperty({ description: 'relation' })
   @IsString()
-  emergency_contact_number: String;
+  relation: String;
 
+  @ApiProperty({ description: 'number' })
+  @IsString()
+  number: String;
+
+  @ApiProperty({ description: 'is_emergency_contact' })
+  @IsBoolean()
+  is_emergency_contact: boolean;
 }

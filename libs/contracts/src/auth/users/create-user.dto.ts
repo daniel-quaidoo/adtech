@@ -6,7 +6,7 @@ import { CreateContactDto } from '@lib/contracts/auth/contacts/create-contact.dt
 export class CreateUserDto {
   first_name: string;
   last_name: string;
-  email: String;
+  email: string;
   phone_number: string;
   identification_number: string;
   photo_url: string;

@@ -1,13 +1,15 @@
 import { ApiTags } from "@nestjs/swagger";
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 
+// entity
+import { Group } from "./entities/group.entity";
+
 // service
 import { GroupsService } from "./groups.service";
 
 // dto
 import { CreateGroupDto } from "./dto/create-group.dto";
 import { CreateUserGroupDto } from "./dto/create-user-group.dto";
-import { Group } from "./entities/group.entity";
 import { CreateUserGroupPermissionDto } from "./dto/create-user-group-permissions.dto";
 
 @ApiTags('Groups')

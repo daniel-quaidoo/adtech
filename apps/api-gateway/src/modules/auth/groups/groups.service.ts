@@ -3,15 +3,14 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 
 // dto
+import { CreateGroupDto, CreateUserGroupPermissionDto } from "@lib/contracts";
 import { CreateUserGroupDto } from "@lib/contracts/auth/groups/create-user-group.dto";
-// import { CreateGroupDto } from "@lib/contracts";
 
 // entity
 import { Group } from "./entities/group.entity";
 import { User } from "../users/entities/user.entity";
 import { UserGroup } from "./entities/user-group.entity";
 import { Permission } from "../permissions/entities/permission.entity";
-import { CreateGroupDto, CreateUserGroupPermissionDto } from "@lib/contracts";
 
 
 @Injectable()

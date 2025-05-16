@@ -6,9 +6,9 @@ import { IsArray, IsEnum, IsOptional, IsString } from 'class-validator';
 import { AddressType } from '@lib/contracts/address/enums/address-type.enum';
 
 // dto
-import { CityDto } from '@app/api-gateway/src/modules/address/dto/city.dto';
-import { RegionDto } from '@app/api-gateway/src/modules/address/dto/region.dto';
-import { CountryDto } from '@app/api-gateway/src/modules/address/dto/country.dto';
+import { CityDto } from '@app/api-gateway/src/modules/address/city/dto/city.dto';
+import { RegionDto } from '@app/api-gateway/src/modules/address/region/dto/region.dto';
+import { CountryDto } from '@app/api-gateway/src/modules/address/country/dto/country.dto';
 
 export class UpdateAddressDto {
   @ApiProperty({ required: false, description: 'address_id' })
@@ -41,10 +41,25 @@ export class UpdateAddressDto {
   @IsOptional()
   address_postal_code?: string;
 
-  @ApiProperty({ required: false, description: 'city', type: [CityDto] })
+  @ApiProperty({ description: 'city_name' })
+  @IsString()
   @IsOptional()
-  @Type(() => CityDto)
-  city?: CityDto;
+  city_name?: string;
+
+  @ApiProperty({ description: 'region_name' })
+  @IsString()
+  @IsOptional()
+  region_name?: string;
+
+  @ApiProperty({ description: 'country_name' })
+  @IsString()
+  @IsOptional()
+  country_name?: string;
+
+  // @ApiProperty({ required: false, description: 'city', type: [CityDto] })
+  // @IsOptional()
+  // @Type(() => CityDto)
+  // city?: CityDto;
 
   // @ApiProperty({ required: false, description: 'region', type: [RegionDto] })
   // @IsOptional()

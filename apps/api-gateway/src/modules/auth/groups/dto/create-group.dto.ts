@@ -15,26 +15,16 @@ export class CreateGroupDto {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ description: 'created_at', type: String, format: 'date' })
-  @IsDate()
-  @Type(() => Date)
-  created_at: Date;
-
-  @ApiProperty({ description: 'updated_at', type: String, format: 'date' })
-  @IsDate()
-  @Type(() => Date)
-  updated_at: Date;
-
   @ApiProperty({ description: 'userGroups', type: [UserGroupDto] })
   @IsArray()
   @IsOptional()
   @Type(() => UserGroupDto)
-  userGroups: UserGroupDto[];
+  userGroups?: UserGroupDto[];
 
   @ApiProperty({ description: 'permissions', type: [PermissionDto] })
   @IsArray()
   @IsOptional()
   @Type(() => PermissionDto)
-  permissions: PermissionDto[];
+  permissions?: PermissionDto[];
 
 }

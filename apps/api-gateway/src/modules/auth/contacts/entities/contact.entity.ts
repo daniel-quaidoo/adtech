@@ -1,4 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
+// entity
 import { User } from "../../users/entities/user.entity";
 
 
@@ -7,22 +9,25 @@ export class Contact{
     @PrimaryGeneratedColumn('uuid')
     id: String;
 
-    @ManyToOne(() => User, (user) => user.contacts)
+    @ManyToOne(() => User, (user) => user.contacts, { nullable: true })
     @JoinColumn({name: 'user_id'})
-    user: User;
+    user: User | null;
+    
+    @Column({ length: 128 })
+    first_name: String;
 
-    // @ManyToOne(() => User, (user) => user.contacts)
-    // user: User;
+    @Column({ length: 128 })
+    last_name: String;
 
-    @Column({length: 128})
-    emergency_contact_name : String;
+    @Column({ length: 128 })
+    email: String;
 
-    @Column({length: 128})
-    emergency_contact_email : String;
+    @Column({ length: 128 })
+    relation: String;
 
-    @Column({length: 128})
-    emergency_contact_relation : String;
+    @Column({ length: 128 })
+    number: String;
 
-    @Column({length: 128})
-    emergency_contact_number : String;
+    @Column({ default: false })
+    is_emergency_contact: boolean;
 }

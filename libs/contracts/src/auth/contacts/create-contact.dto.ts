@@ -1,9 +1,11 @@
-import { UserDto } from '../users/user.dto';
+import { UserDto } from "../users/user.dto";
 
 export class CreateContactDto {
   user: UserDto;
-  emergency_contact_name: String;
-  emergency_contact_email: String;
-  emergency_contact_relation: String;
-  emergency_contact_number: String;
+  first_name: String;
+  last_name: String;
+  email: String;
+  relation: String;
+  number: String;
+  is_emergency_contact: boolean;
 }
