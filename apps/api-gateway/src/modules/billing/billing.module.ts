@@ -9,11 +9,14 @@ import { InvoiceModule } from './invoice/invoice.module';
 import { PaymentModule } from './payment/payment.module';
 import { TransactionModule } from './transaction/transaction.module';
 
+import { EntityBillableModule } from './entity-billable/entity-billable.module';
+
 @Module({
   imports: [
     InvoiceModule,
     PaymentModule,
     TransactionModule,
+    EntityBillableModule,
   ],
   controllers: [ BillingController],
   providers: [BillingService]

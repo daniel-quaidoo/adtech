@@ -36,4 +36,8 @@ export class PageOptionsDto {
   get skip(): number {
     return ((this.page ?? 1) - 1) * (this.limit ?? 10);
   }
+
+  @ApiPropertyOptional({ default: 'id', description: 'Field to order by' })
+  @IsOptional()
+  readonly orderBy?: string = 'id'; 
 }

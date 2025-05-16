@@ -1,22 +1,27 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { PaymentType } from "../../payment/entities/payment-type.entity";
 
 import { PaymentStatusEnum } from "@lib/contracts/billing/enums/payment-status.enum";
 import { TransactionType } from "./transaction-type.entity";
 import { Invoice } from "../../invoice/entities/invoice.entity";
+import { PaymentChannel } from "../../payment/entities/payment-channel.entity";
 
 
 @Entity('transaction')
 export class Transaction {
     
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryColumn()
     transaction_id: string;
 
-    @Column()
-    transaction_number: string;
-
-    @ManyToOne(() => PaymentType)
+    // @Index()
+    // @Column()
+    // transaction_number: string;
+    
+    @ManyToOne(() => PaymentType, { nullable : true, eager: true })
     payment_type: PaymentType;
+
+    @ManyToOne(() => PaymentChannel, { nullable : true, eager: true })
+    payment_channel: PaymentChannel;
 
     @Column()
     transaction_date: Date;

@@ -3,7 +3,7 @@ import { InvoiceTypeEnum } from "@lib/contracts/billing/enums/invoice-type.enum"
 import { PaymentStatusEnum } from "@lib/contracts/billing/enums/payment-status.enum";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEnum, IsNumber, IsString } from "class-validator";
+import { IsArray, IsDate, IsDecimal, IsEnum, IsNumber, IsString } from "class-validator";
 import { Type } from "class-transformer";
 
 //dto
@@ -18,24 +18,20 @@ export class InvoiceDto{
     @IsString()
     invoice_id: string;
 
-    @ApiProperty({description: 'Invoice Number', example: '2023-001'})
+    @ApiProperty({description: 'User ID of Invoice Seller', example: '47849da9-ebd1-4b02-9517-8717791fdd5c'})
     @IsString()
-    invoice_number: string;
+    issued_by: string;
 
     @ApiProperty({description: 'User ID of Invoice Buyer', example: '47849da9-ebd1-4b02-9517-8717791fdd5c'})
-    @Type(() => UserDto)
-    issued_by: UserDto;
-
-    @ApiProperty({description: 'User ID of Invoice Payer', example: '47849da9-ebd1-4b02-9517-8717791fdd5c'})
-    @Type(() => UserDto)
-    issued_to: UserDto;
+    @IsString()
+    issued_to: string;
 
     @ApiProperty({description: 'Invoice Details', example: 'Payment for subscription services'})
     @IsString()
     invoice_details: string;
 
     @ApiProperty({description: 'Invoice Amount', example: 150.75})
-    @IsNumber()
+    @IsDecimal()
     invoice_amount: number;
 
     @ApiProperty({description: 'Invoice due date', example: '2023-12-31T23:59:59.000Z'})
@@ -55,23 +51,11 @@ export class InvoiceDto{
     status: PaymentStatusEnum;
 
     @ApiProperty({description: 'Invoice items', example: ''})
-    @Type(() => InvoiceItemDto)
-    items: InvoiceItemDto[];
+    @IsArray()
+    item_ids?: string[];
 
     @ApiProperty({description: 'Invoice transactions', example: ''})
-    @Type(() => TransactionDto)
-    transactions: TransactionDto[];
+    @IsArray()
+    transaction_ids?:string[];
 }
 
-// invoice_id:string;
-// invoice_number:string;
-// issued_by: UserDto;
-// issued_to: UserDto;
-// invoice_details:string;
-// invoice_amount:number;
-// due_date:Date;
-// date_paid: Date;
-// invoice_type: InvoiceTypeEnum;
-// status: PaymentStatusEnum;
-// items: InvoiceItemDto[];
-// transactions: TransactionDto[];

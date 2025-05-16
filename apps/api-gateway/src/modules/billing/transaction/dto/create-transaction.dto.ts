@@ -4,17 +4,23 @@ import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'clas
 import { TransactionTypeDto } from './transaction-type.dto';
 import { InvoiceDto } from '../../invoice/dto/invoice.dto';
 import { PaymentTypeDto } from '../../payment/dto/payment-type.dto';
+import { Invoice } from '../../invoice/entities/invoice.entity';
+import { PaymentChannelDto } from '../../payment/dto/payment-channel.dto';
 
 export class CreateTransactionDto {
     
     @ApiProperty({description: 'A unique transaction reference number (e.g., from Paystack or internal system)',example: 'TXN-20240502-001',})
     @IsString()
     @IsNotEmpty()
-    transaction_number: string;
+    transaction_id: string;
 
     @ApiProperty({description: 'ID of the payment type used',example: '1',})
     @IsNotEmpty()
-    payment_type: PaymentTypeDto;
+    payment_type?: PaymentTypeDto;
+
+    @ApiProperty({description: 'Channel for payment type', example: 'MTN Mobile Money'})
+    @IsNotEmpty()
+    payment_channel: PaymentChannelDto;
 
     @ApiProperty({description: 'Date and time when the transaction occurred',example: '2025-05-02T15:45:00.000Z',})
     @IsNotEmpty()
@@ -32,7 +38,7 @@ export class CreateTransactionDto {
     @ApiProperty({description: 'Invoice ID this transaction is associated with',example: 'INV-20240501-007',})
     @IsString()
     @IsNotEmpty()
-    invoice: InvoiceDto;
+    invoice: Invoice;
 
     @ApiProperty({description: 'Total transaction amount',example: 250.75,})
     @IsNumber()

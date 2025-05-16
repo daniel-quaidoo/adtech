@@ -25,6 +25,10 @@ import { PaymentModule } from './payment/payment.module';
             path: 'payment',
             module: PaymentModule,
           },
+          {
+            path: 'entity-billable',
+            module: BillingModule,
+          }
         ],
       },
     ]),

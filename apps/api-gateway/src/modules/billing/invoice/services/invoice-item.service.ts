@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { InvoiceItem } from "../entities/invoice-item.entity";
 import { Repository } from "typeorm";
@@ -6,6 +6,10 @@ import { Invoice } from "../entities/invoice.entity";
 import { CreateInvoiceItemDto } from "@lib/contracts/billing/invoice/create-invoice-item.dto";
 import { InvoiceItemDto } from "@lib/contracts/billing/invoice/invoice-item.dto";
 import { UpdateInvoiceItemDto } from "@lib/contracts/billing/invoice/update-invoice-item.dto";
+import { CreateInvoiceItemsDto } from "@lib/contracts/billing/invoice/create-invoice-items.dto";
+import { InvoiceItemsPageOptionsDto } from "@lib/contracts/billing/invoice/invoice-items-page-options.dto";
+import { PageDto } from "@app/common/dto/page.dto";
+import { paginate } from "@app/common/utils/paginate";
 
 
 @Injectable()
@@ -15,20 +19,31 @@ export class InvoiceItemService{
         @InjectRepository(Invoice) private invoiceRepo: Repository<Invoice>
     ){}
 
-    async addItemToInvoice(invoiceId:string, dto: CreateInvoiceItemDto): Promise<InvoiceItem>{
+    async addItemsToInvoice(invoiceId:string, itemsDto: CreateInvoiceItemsDto): Promise<InvoiceItem[]>{
         const invoice = await this.invoiceRepo.findOneByOrFail({invoice_id: invoiceId})
 
-        const item = this.invoiceItemRepo.create({
-            ...dto,
-            invoice,
-            total_price: dto.unit_price * dto.quantity,
-        });
+        const items = itemsDto.items.map((dto)=> 
+            this.invoiceItemRepo.create({
+                ...dto,
+                invoice,
+                total_price: parseFloat((dto.unit_price * dto.quantity).toFixed(2)),
+        }),
+        );
 
-        return this.invoiceItemRepo.save(item);
+        const savedItems = await this.invoiceItemRepo.save(items);
+        await this.recalculateInvoiceAmount(invoiceId);
+
+        return savedItems;
     }
 
-    async getInvoiceItems(invoiceId:string): Promise<InvoiceItem[]>{
-        return this.invoiceItemRepo.find({
+    async getInvoiceItemsPaginated(invoiceId:string, pageOptionsDto:InvoiceItemsPageOptionsDto): Promise<PageDto<InvoiceItem>>{
+        const allowedOrderFields = ['total_price', 'quantity'];
+
+        if (!allowedOrderFields.includes(pageOptionsDto.orderBy)) {
+            throw new BadRequestException(`Invalid orderBy: ${pageOptionsDto.orderBy}`);
+        }
+
+        return paginate(this.invoiceItemRepo, pageOptionsDto, {
             where: {invoice: {invoice_id: invoiceId}}
         });
     }
@@ -45,6 +60,7 @@ export class InvoiceItemService{
         return invoiceItem;
     }
 
+
     async updateInvoiceItem(invoiceId: string, itemId: string, dto: UpdateInvoiceItemDto): Promise<InvoiceItem> {
         const item = await this.invoiceItemRepo.findOne({
             where: { invoice: { invoice_id: invoiceId }, invoice_item_id: itemId },
@@ -59,19 +75,36 @@ export class InvoiceItemService{
             item.total_price = (dto.unit_price ?? item.unit_price) * (dto.quantity ?? item.quantity);
         }
 
-        return this.invoiceItemRepo.save(item);
+        const updatedItem = await this.invoiceItemRepo.save(item);
+        await this.recalculateInvoiceAmount(invoiceId);
+
+        return updatedItem ;
     }
 
     async deleteInvoiceItem(invoiceId: string, itemId: string): Promise<void> {
-         const item = await this.invoiceItemRepo.findOne({
+        const item = await this.invoiceItemRepo.findOne({
             where: { invoice: { invoice_id: invoiceId }, invoice_item_id: itemId },
         });
     
         if (!item) {
             throw new NotFoundException('Invoice item not found or does not belong to the specified invoice');
         }
-    
-        await this.invoiceItemRepo.delete(itemId);
+
+        await this.invoiceItemRepo.delete(itemId)
+        await this.recalculateInvoiceAmount(invoiceId);
+        
     }
     
+    private async recalculateInvoiceAmount(invoiceId: string): Promise<void>{
+        const items = await this.invoiceItemRepo.find({
+            where: {invoice: {invoice_id: invoiceId}},
+        });
+
+        const total = items.reduce((sum, item) => sum + Number(item.total_price), 0);
+
+        await this.invoiceRepo.update(
+            {invoice_id: invoiceId},
+            {invoice_amount: total}
+        );
+    }
 }

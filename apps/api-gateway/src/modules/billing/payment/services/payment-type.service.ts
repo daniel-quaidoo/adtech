@@ -32,6 +32,17 @@ export class PaymentTypeService{
         return this.paymentTypeRepo.update(paymentTypeId, dto);
     }
 
+    async findOrCreateByName(payment_type_name:string): Promise<PaymentType>{
+        let paymentType = await this.paymentTypeRepo.findOne({where: {payment_type_name}})
+
+        if(!paymentType){
+            paymentType = this.paymentTypeRepo.create({payment_type_name});
+            await this.paymentTypeRepo.save(paymentType);
+        }
+
+        return paymentType;
+    }
+
     remove(paymentTypeId: number) {
         return this.paymentTypeRepo.delete(paymentTypeId);
     }

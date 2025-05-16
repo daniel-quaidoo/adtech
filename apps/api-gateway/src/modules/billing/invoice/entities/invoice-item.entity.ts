@@ -23,6 +23,6 @@ export class InvoiceItem{
     @Column()
     description: string;
     
-    @Column()
+    @Column({nullable: true})
     reference_id: string;
 }

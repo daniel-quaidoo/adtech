@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete, Query } from '@nestjs/common';
 import { InvoiceItemService } from '../services/invoice-item.service';
 import { CreateInvoiceItemDto } from '../dto/create-invoice-item.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UpdateInvoiceItemDto } from '../dto/update-invoice-item.dto';
+import { CreateInvoiceItemsDto } from '../dto/create-invoice-items.dto';
+import { InvoiceItem } from '../entities/invoice-item.entity';
+import { InvoiceItemsPageOptionsDto } from '@lib/contracts/billing/invoice/invoice-items-page-options.dto';
 
 @ApiTags('Invoice-items')
 @Controller('/:invoiceId/items')
@@ -13,16 +16,17 @@ export class InvoiceItemController {
     @Post()
     create(
         @Param('invoiceId') invoiceId:string,
-        @Body() dto: CreateInvoiceItemDto,
+        @Body() dto: CreateInvoiceItemsDto,
     ){
-        return this.itemService.addItemToInvoice(invoiceId,dto);
+        return this.itemService.addItemsToInvoice(invoiceId,dto);
     }
 
     @Get()
     findAll(
         @Param('invoiceId') invoiceId:string,
+        @Query() options: InvoiceItemsPageOptionsDto
     ){
-        return this.itemService.getInvoiceItems(invoiceId)
+        return this.itemService.getInvoiceItemsPaginated(invoiceId,options)
     }
 
     @Get(':itemId')

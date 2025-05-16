@@ -11,16 +11,15 @@ import { TransactionDto } from "../transaction/transaction.dto";
 
 export class InvoiceDto{
     invoice_id: string;
-    invoice_number: string;
-    issued_by: UserDto;
-    issued_to: UserDto;
+    issued_by: string;
+    issued_to: string;
     invoice_details: string;
     invoice_amount: number;
     due_date: Date;
     date_paid: Date;
     invoice_type: InvoiceTypeEnum;
     status: PaymentStatusEnum;
-    items: InvoiceItemDto[];
-    transactions: TransactionDto[];
+    item_ids?: string[];
+    transaction_ids?: string[];
 }
 

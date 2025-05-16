@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsDecimal, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { InvoiceDto } from './invoice.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
@@ -21,12 +21,12 @@ export class InvoiceItemDto {
     quantity: number;
 
     @ApiProperty({description: 'Unit price of the item',example: 19.99,})
-    @IsNumber({ maxDecimalPlaces: 2 })
+    @IsDecimal()
     @IsNotEmpty()
     unit_price: number;
 
     @ApiProperty({description: 'Total price for the item (quantity * unit price)',example: 199.90})
-    @IsNumber({ maxDecimalPlaces: 2 })
+    @IsDecimal()
     @IsNotEmpty()
     total_price?: number;
 
